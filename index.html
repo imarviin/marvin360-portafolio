@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marvin360 - Portafolio</title>
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="favicon.png">  
+
+  <!-- Fuentes Plus Jakarta Sans y JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-black: #080404;
+      --card-dark: #140c0d;
+      --border-dark: #29181a;
+      --red-primary: #ff2a3c;
+      --red-glow: rgba(255, 42, 60, 0.35);
+      --red-dark-bg: rgba(255, 42, 60, 0.12);
+      --text-main: #ffffff;
+      --text-muted: #a39ca0;
+    }
+
+    /* ESTILOS PARA LA BARRA DE DESPLAZAMIENTO EN NEGRO */
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: #221214 #080404;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #080404;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1c0e10;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 42, 60, 0.2);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff2a3c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body, html {
+      background-color: var(--bg-black);
+      background-image: radial-gradient(circle at 50% 15%, rgba(145, 22, 34, 0.25) 0%, rgba(8, 4, 4, 1) 70%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* CONTENEDOR EXTERIOR DEL HEADER */
+    .header-wrapper {
+      width: 100%;
+      padding: 22px 20px 10px 20px;
+    }
+
+    /* MINI CUADRO DEL ENCABEZADO */
+    header {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px;
+      background-color: #12090a;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 42, 60, 0.45);
+      box-shadow: 0 0 15px rgba(255, 42, 60, 0.15);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    header:hover {
+      border-color: rgba(255, 42, 60, 0.75);
+      box-shadow: 0 0 22px rgba(255, 42, 60, 0.25);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.6px;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba(255, 42, 60, 0.7);
+    }
+
+    .brand .red-accent {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--red-primary);
+      font-weight: 700;
+    }
+
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--text-main);
+    }
+
+    .btn-nav-contact {
+      background-color: var(--red-primary);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px var(--red-glow);
+      transition: transform 0.2s ease;
+    }
+
+    .btn-nav-contact:hover {
+      transform: translateY(-2px);
+    }
+
+    /* SECCIÓN PRINCIPAL (HERO) */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 50px 20px 50px 20px;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    /* Imagen Skin */
+    .skin-container {
+      margin-bottom: 28px;
+    }
+
+    .skin-container img {
+      width: 170px;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 20px rgba(255, 42, 60, 0.2));
+    }
+
+    /* Etiqueta de estado */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--red-dark-bg);
+      border: 1px solid rgba(255, 42, 60, 0.3);
+      color: var(--red-primary);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--red-primary);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--red-primary);
+    }
+
+    /* Título Principal */
+    .hero h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 84px;
+      font-weight: 800;
+      letter-spacing: -2.5px;
+      line-height: 1.05;
+      margin-bottom: 14px;
+      background: linear-gradient(
+        110deg,
+        #ff2a3c 0%,
+        #ff2a3c 42%,
+        #c41b2a 50%,
+        #ff2a3c 58%,
+        #ff2a3c 100%
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      animation: letterWave 8s linear infinite;
+      will-change: background-position;
+    }
+
+    @keyframes letterWave {
+      0% {
+        background-position: 100% center;
+      }
+      75% {
+        background-position: 0% center;
+      }
+      100% {
+        background-position: 0% center;
+      }
+    }
+
+    /* Subtítulo */
+    .hero-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 19px;
+      letter-spacing: -0.3px;
+      margin-bottom: 22px;
+      color: var(--text-muted);
+    }
+
+    .hero-subtitle span {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--red-primary);
+      font-weight: 700;
+    }
+
+    /* Descripción */
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 17.5px;
+      line-height: 1.65;
+      max-width: 600px;
+      margin-bottom: 34px;
+    }
+
+    /* Botones centrales */
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 55px;
+    }
+
+    .btn-primary-red {
+      background-color: var(--red-primary);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px var(--red-glow);
+      transition: transform 0.2s ease;
+    }
+
+    .btn-primary-red:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary-dark {
+      background-color: #140c0d;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: 1px solid var(--border-dark);
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary-dark:hover {
+      border-color: var(--red-primary);
+      background-color: #231012;
+      transform: translateY(-2px);
+    }
+
+    /* Estadísticas inferiores */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 70px;
+      width: 100%;
+      padding-top: 35px;
+      border-top: 1px solid rgba(255, 42, 60, 0.15);
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--red-primary);
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* SECCIÓN DE AYUDA */
+    .help-section {
+      padding: 40px 20px 70px 20px;
+    }
+
+    .help-box {
+      background-color: #140c0d;
+      border: 1px solid rgba(255, 42, 60, 0.3);
+      padding: 32px;
+      border-radius: 14px;
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .help-box h2 {
+      color: var(--red-primary);
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .help-box p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: #060303;
+      border-top: 1px solid rgba(255, 42, 60, 0.12);
+      color: var(--text-muted);
+      text-align: center;
+      padding: 22px 0;
+      font-size: 13px;
+    }
+
+    footer span {
+      color: var(--red-primary);
+      font-weight: 600;
+    }
+
+    /* Responsive para móviles */
+    @media (max-width: 768px) {
+      header {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .nav-group {
+        flex-direction: column;
+        gap: 14px;
+      }
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+      }
+      .hero h1 {
+        font-size: 52px;
+      }
+      .stats-bar {
+        gap: 35px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-wrapper">
+    <header>
+      <a href="index.html" class="brand">
+        <img src="foto.png" alt="Avatar Marvin360">
+        <span>Marvin<span class="red-accent">360</span></span>
+      </a>
+
+      <div class="nav-group">
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="sobre-mi.html">Sobre Mí</a>
+          <a href="habilidades.html">Habilidades</a>
+          <a href="trayectoria.html">Trayectoria</a>
+        </nav>
+        <a href="contacto.html" class="btn-nav-contact">Contactar</a>
+      </div>
+    </header>
+  </div>
+
+  <main class="hero">
+    <div class="skin-container">
+      <img src="skin.png" alt="Skin Minecraft Marvin360">
+    </div>
+
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      Actualmente Disponible
+    </div>
+
+    <h1>Marvin360</h1>
+
+    <div class="hero-subtitle">
+      <span>Server Manager</span> & Configurator
+    </div>
+
+    <p class="hero-desc">
+      Experiencia en configuración y management de Servidores de Minecraft, con +6 años de trayectoria. 
+      Soluciones optimizadas, seguras y escalables para tu network.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="trayectoria.html" class="btn-primary-red">Trayectoria</a>
+      <a href="sobre-mi.html" class="btn-secondary-dark">Sobre Mi</a>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-number">7+</div>
+        <div class="stat-label">Años de experiencia</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">9.7+</div>
+        <div class="stat-label">Reseñas en Trabajos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">97%</div>
+        <div class="stat-label">Optimización y soporte</div>
+      </div>
+    </div>
+  </main>
+
+  <section class="help-section">
+    <div class="help-box">
+      <h2>¿Qué encontrarás en este Portafolio Web?</h2>
+      <p>
+        Aquí encontrarás información sobre lo que yo puedo hacer en tu servidor de minecraft.
+        como mis habilidades al configurar, o dirigir un Staffteam, la trayectoria que llevo, etc.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    © <span>2026 Marvin360</span>. Todos los derechos reservados.
+  </footer>
+
+</body>
+</html>

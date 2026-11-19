@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Habilidades - Marvin360</title>
+  
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <style>
+    :root {
+      --bg-black: #080404;
+      --card-dark: #12090a;
+      --border-dark: rgba(255, 42, 60, 0.3);
+      --border-hover: rgba(255, 42, 60, 0.7);
+      --red-primary: #ff2a3c;
+      --red-glow: rgba(255, 42, 60, 0.35);
+      --red-dark-bg: rgba(255, 42, 60, 0.12);
+      --text-main: #ffffff;
+      --text-muted: #a39ca0;
+    }
+
+    /* BARRA DE DESPLAZAMIENTO EN NEGRO */
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: #221214 #080404;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #080404;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1c0e10;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 42, 60, 0.2);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff2a3c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body, html {
+      background-color: var(--bg-black);
+      background-image: radial-gradient(circle at 50% 15%, rgba(145, 22, 34, 0.25) 0%, rgba(8, 4, 4, 1) 70%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* CONTENEDOR EXTERIOR DEL HEADER */
+    .header-wrapper {
+      width: 100%;
+      padding: 22px 20px 10px 20px;
+    }
+
+    header {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px;
+      background-color: #12090a;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 42, 60, 0.45);
+      box-shadow: 0 0 15px rgba(255, 42, 60, 0.15);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    header:hover {
+      border-color: rgba(255, 42, 60, 0.75);
+      box-shadow: 0 0 22px rgba(255, 42, 60, 0.25);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.6px;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba(255, 42, 60, 0.7);
+    }
+
+    .brand .red-accent {
+      color: var(--red-primary);
+    }
+
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--text-main);
+    }
+
+    .btn-nav-contact {
+      background-color: var(--red-primary);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px var(--red-glow);
+      transition: transform 0.2s ease;
+    }
+
+    .btn-nav-contact:hover {
+      transform: translateY(-2px);
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .main-container {
+      max-width: 1120px;
+      margin: 40px auto 60px auto;
+      padding: 0 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+    .main-title-area {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .main-title {
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      font-weight: 800;
+      font-size: 44px;
+      margin-bottom: 10px;
+      letter-spacing: -1.5px;
+    }
+
+    .main-title span {
+      color: var(--red-primary);
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    /* CATEGORÍAS Y SECCIONES */
+    .category-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .category-title span {
+      color: var(--red-primary);
+    }
+
+    /* GRID DE HABILIDADES (BENTO GRID) */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      margin-bottom: 45px;
+    }
+
+    .skill-card {
+      background-color: var(--card-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      grid-column: span 6; /* 2 columnas por fila en desktop */
+    }
+
+    .skill-card.full-width {
+      grid-column: span 12;
+    }
+
+    .skill-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 35px rgba(255, 42, 60, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .skill-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .skill-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--red-primary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* CAJITA ROJA PARA EL ICONO VECTORIAL */
+    .skill-icon-box {
+      width: 40px;
+      height: 40px;
+      background-color: var(--red-dark-bg);
+      border: 1px solid rgba(255, 42, 60, 0.3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .skill-svg-icon {
+      width: 20px;
+      height: 20px;
+      stroke: var(--red-primary);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .skill-desc {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* FICHAS DENTRO DE LAS TARJETAS */
+    .chips-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .chip-item {
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--red-primary);
+      background-color: var(--red-dark-bg);
+      border: 1px solid rgba(255, 42, 60, 0.3);
+      padding: 5px 11px;
+      border-radius: 8px;
+    }
+
+    /* PIE DE PÁGINA */
+    footer {
+      text-align: center;
+      padding: 25px 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      background-color: #060303;
+      border-top: 1px solid rgba(255, 42, 60, 0.12);
+      margin-top: 60px;
+    }
+
+    footer span {
+      color: var(--red-primary);
+      font-weight: 600;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .skill-card {
+        grid-column: span 12;
+      }
+      header {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .nav-group {
+        flex-direction: column;
+        gap: 14px;
+      }
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER FLOTANTE -->
+  <div class="header-wrapper">
+    <header>
+      <a href="index.html" class="brand">
+        <img src="foto.png" alt="Avatar Marvin360">
+        <span>Marvin<span class="red-accent">360</span></span>
+      </a>
+
+      <div class="nav-group">
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="sobre-mi.html">Sobre Mí</a>
+          <a href="habilidades.html" class="active" style="color: white;">Habilidades</a>
+          <a href="trayectoria.html">Trayectoria</a>
+        </nav>
+        <a href="contacto.html" class="btn-nav-contact">Contactar</a>
+      </div>
+    </header>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-container">
+    <div class="main-title-area">
+      <h1 class="main-title">Sección de Habilidades y <span>Herramientas</span></h1>
+      <p class="subtitle">Lenguajes de programación, formatos de configuración que domino para el desarrollo & gestión de servidores.</p>
+    </div>
+
+    <!-- SECCIÓN 1: CONFIGURACIÓN Y DEVELOPMENT -->
+    <h2 class="category-title"><span>01.</span> Configuración y Development</h2>
+    <div class="skills-grid">
+
+      <!-- Java -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <span class="skill-name">Java</span>
+          <div class="skill-icon-box" title="Desarrollo / Código">
+            <svg class="skill-svg-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          </div>
+        </div>
+        <p class="skill-desc">
+          Tengo la capacidad de programar y desarrollar plugins personalizados desde cero para Minecraft como (sistemas de reportes, moderación, bloqueo de mensajes obscenos, etc).
+        </p>
+      </div>
+
+      <!-- HTML & CSS -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <span class="skill-name">HTML & CSS</span>
+          <div class="skill-icon-box" title="Diseño Web">
+            <svg class="skill-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          </div>
+        </div>
+        <p class="skill-desc">
+          Dominio un poco avanzado en el diseño y estructura de paginas web modernas y atractivas. Trabajo con estilos personalizados, efectos visuales, algunas transiciones fluidas, como puedes notar en este Portafolio Web.
+        </p>
+      </div>
+
+      <!-- YAML -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <span class="skill-name">YAML</span>
+          <div class="skill-icon-box" title="Configuración">
+            <svg class="skill-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+        </div>
+        <p class="skill-desc">
+          Puedo entender, estructurar y configurar plugins basados en YAML de manera excelente y, además, domino otros formatos como <strong>XML</strong>, o <strong>TypeScript</strong>
+        </p>
+      </div>
+
+      <!-- Arquitectura de Servidores y Proxys -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <span class="skill-name">Proxys & Seguridad</span>
+          <div class="skill-icon-box" title="Redes e Infraestructura">
+            <svg class="skill-svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+        </div>
+        <p class="skill-desc">
+          Tengo conocimientos sobre el tema de Proxys y seguridad de un servidor. Sé crear y configurar proxys avanzadas (como Velocity, BungeeCoord o FlameCord).
+        </p>
+      </div>
+
+      <!-- Personalización Visual & Menús -->
+      <div class="skill-card full-width">
+        <div class="skill-header">
+          <span class="skill-name">Estética, Menús & Lores en Minecraft</span>
+          <div class="skill-icon-box" title="Diseño In-Game">
+            <svg class="skill-svg-icon" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+          </div>
+        </div>
+        <p class="skill-desc">
+          Me especializo en personalizar bastante bien menús, lores y diferentes elementos visuales dentro del juego. Se bastante sobre la combinación de colores y sé cómo diseñar y configurar distintos menús o apartados dentro de un servidor, manteniendo siempre la identidad del servidor y un trabajo excelente en todo momento..
+        </p>
+      </div>
+
+    </div>
+
+    <!-- SECCIÓN 2: GESTIÓN Y MANAGEMENT -->
+    <h2 class="category-title"><span>02.</span> Gestión y Management</h2>
+    <div class="skills-grid">
+
+      <!-- Ficha: Gestión -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <span class="skill-name">Gestión</span>
+          <div class="skill-icon-box" title="Gestión de Equipos">
+            <svg class="skill-svg-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+        </div>
+        <p class="skill-desc">
+          Sé gestionar bastante bien StaffTeams grandes, imponer un liderazgo avanzado para los Staffs, y implementar diferentes formas de actividad
+        </p>
+        <div class="chips-list">
+          <span class="chip-item">Staff Management</span>
+          <span class="chip-item">Capacitación</span>
+          <span class="chip-item">Gestión</span>
+          <span class="chip-item">Liderazgo</span>
+        </div>
+      </div>
+
+      <!-- Ficha: Habilidad Técnica -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <span class="skill-name">Técnicas al StaffTeam</span>
+          <div class="skill-icon-box" title="Habilidad Técnica">
+            <svg class="skill-svg-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+        </div>
+        <p class="skill-desc">
+          Tengo técnicas bastante buenas para hacer despertar a los Staffs si son inactivos, o hacen mal su trabajo, aconsejandolos, o implementando formas de motivación.
+        </p>
+        <div class="chips-list">
+          <span class="chip-item">Diagnóstico</span>
+          <span class="chip-item">Control Operativo</span>
+          <span class="chip-item">Técnica</span>
+          <span class="chip-item">Actividad</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer>
+    <p>&copy; <span>2026 iMarviin</span>. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>

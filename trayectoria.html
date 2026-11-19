@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trayectoria - Marvin360</title>
+  
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <style>
+    :root {
+      --bg-black: #080404;
+      --card-dark: #12090a;
+      --border-dark: rgba(255, 42, 60, 0.3);
+      --border-hover: rgba(255, 42, 60, 0.7);
+      --red-primary: #ff2a3c;
+      --red-glow: rgba(255, 42, 60, 0.35);
+      --red-dark-bg: rgba(255, 42, 60, 0.12);
+      --text-main: #ffffff;
+      --text-muted: #a39ca0;
+    }
+
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: #221214 #080404;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #080404;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1c0e10;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 42, 60, 0.2);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff2a3c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body, html {
+      background-color: var(--bg-black);
+      background-image: radial-gradient(circle at 50% 15%, rgba(145, 22, 34, 0.25) 0%, rgba(8, 4, 4, 1) 70%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-wrapper {
+      width: 100%;
+      padding: 22px 20px 10px 20px;
+    }
+
+    header {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px;
+      background-color: #12090a;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 42, 60, 0.45);
+      box-shadow: 0 0 15px rgba(255, 42, 60, 0.15);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    header:hover {
+      border-color: rgba(255, 42, 60, 0.75);
+      box-shadow: 0 0 22px rgba(255, 42, 60, 0.25);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.6px;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba(255, 42, 60, 0.7);
+    }
+
+    .brand .red-accent {
+      color: var(--red-primary);
+    }
+
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--text-main);
+    }
+
+    .btn-nav-contact {
+      background-color: var(--red-primary);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px var(--red-glow);
+      transition: transform 0.2s ease;
+    }
+
+    .btn-nav-contact:hover {
+      transform: translateY(-2px);
+    }
+
+    .main-container {
+      max-width: 850px;
+      margin: 40px auto 60px auto;
+      padding: 0 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+    .main-title-area {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .main-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 44px;
+      margin-bottom: 10px;
+      color: var(--text-main);
+      letter-spacing: -1.5px;
+    }
+
+    .main-title span {
+      color: var(--red-primary);
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    /* TIMELINE */
+    .timeline-container {
+      position: relative;
+      padding-left: 35px;
+    }
+
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--red-primary), rgba(255, 42, 60, 0.15));
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 50px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -35px;
+      top: 8px;
+      width: 16px;
+      height: 16px;
+      background-color: var(--bg-black);
+      border: 2px solid var(--red-primary);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--red-primary);
+    }
+
+    .timeline-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .server-title-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .timeline-role {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .server-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 2px 9px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      transform: translateY(1px);
+    }
+
+    .role-tag-box {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--red-primary);
+      background-color: var(--red-dark-bg);
+      border: 1px solid rgba(255, 42, 60, 0.3);
+      padding: 4px 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .timeline-company {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #d1cbd0;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge.closed {
+      background-color: rgba(196, 59, 29, 0.2);
+      border: 1px solid rgba(196, 59, 29, 0.5);
+      color: #ff5c38;
+    }
+
+    .badge.open {
+      background-color: rgba(33, 150, 83, 0.2);
+      border: 1px solid rgba(33, 150, 83, 0.5);
+      color: #2ecc71;
+    }
+
+    .timeline-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+
+    .discord-mention {
+      position: relative;
+      display: inline-block;
+      color: #ffffff;
+      font-weight: 600;
+      text-decoration: underline 1.5px #ffffff;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    }
+
+    .discord-mention:hover {
+      color: var(--red-primary);
+      text-decoration-color: var(--red-primary);
+    }
+
+    .discord-tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: 140%;
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background-color: #160a0c;
+      border: 1px solid rgba(255, 42, 60, 0.65);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.85), 0 0 12px rgba(255, 42, 60, 0.25);
+      color: #ffffff;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      font-weight: 500;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 50;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    }
+
+    .discord-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 5px;
+      border-style: solid;
+      border-color: rgba(255, 42, 60, 0.65) transparent transparent transparent;
+    }
+
+    .discord-mention:hover .discord-tooltip {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .discord-icon {
+      width: 16px;
+      height: 16px;
+      fill: var(--red-primary);
+      flex-shrink: 0;
+    }
+
+    #copy-toast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #12090a;
+      border: 1px solid rgba(255, 42, 60, 0.6);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 42, 60, 0.25);
+      color: #ffffff;
+      padding: 14px 18px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 9999;
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+
+    #copy-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast-svg-icon {
+      width: 20px;
+      height: 20px;
+      fill: var(--red-primary);
+      flex-shrink: 0;
+    }
+
+    .countdown-container {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .countdown-svg {
+      transform: rotate(-90deg);
+      width: 28px;
+      height: 28px;
+    }
+
+    .countdown-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.1);
+      stroke-width: 3;
+    }
+
+    .countdown-progress {
+      fill: none;
+      stroke: var(--red-primary);
+      stroke-width: 3;
+      stroke-dasharray: 75.4;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.1s linear;
+    }
+
+    .countdown-number {
+      position: absolute;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      color: var(--text-main);
+    }
+
+    .toast-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: color 0.2s;
+    }
+
+    .toast-close:hover {
+      color: var(--red-primary);
+    }
+
+    .timeline-details-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background-color: var(--card-dark);
+      border: 1px solid var(--border-dark);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .timeline-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14.5px;
+      color: #ded9dc;
+      line-height: 1.5;
+    }
+
+    .detail-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      fill: var(--red-primary);
+      margin-top: 2px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      background-color: #060303;
+      border-top: 1px solid rgba(255, 42, 60, 0.12);
+      margin-top: 60px;
+    }
+
+    footer span {
+      color: var(--red-primary);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .nav-group {
+        flex-direction: column;
+        gap: 14px;
+      }
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+      }
+      .main-container {
+        padding: 0 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-wrapper">
+    <header>
+      <a href="index.html" class="brand">
+        <img src="foto.png" alt="Avatar Marvin360">
+        <span>Marvin<span class="red-accent">360</span></span>
+      </a>
+
+      <div class="nav-group">
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="sobre-mi.html">Sobre Mí</a>
+          <a href="habilidades.html">Habilidades</a>
+          <a href="trayectoria.html" style="color: white;">Trayectoria</a>
+        </nav>
+        <a href="contacto.html" class="btn-nav-contact">Contactar</a>
+      </div>
+    </header>
+  </div>
+
+  <main class="main-container">
+    <div class="main-title-area">
+      <h1 class="main-title">Sección de mi <span>Trayectoria</span></h1>
+      <p class="subtitle">Cronología de servidores y proyectos en los que he participado como Configurador / Staff</p>
+    </div>
+
+    <div class="timeline-container">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title-row">
+          <div class="server-title-group">
+            <h2 class="timeline-role">MineRush</h2>
+            <span class="server-date">Actual</span>
+          </div>
+          <span class="badge open">Abierto</span>
+        </div>
+        <div class="role-tag-box">Manager & Configurator</div>
+        <div class="timeline-company">Modalidad: Por definir</div>
+        <p class="timeline-desc">
+          Actualmente trabajando en la configuración, optimización y gestión administrativa dentro de MineRush.
+        </p>
+        <ul class="timeline-details-list">
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Configuración técnica y desarrollo de modalidades.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Gestión y coordinación del equipo de staff.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title-row">
+          <div class="server-title-group">
+            <h2 class="timeline-role">SummonCraft</h2>
+            <span class="server-date">Abril 2026</span>
+          </div>
+          <span class="badge open">Abierto</span>
+        </div>
+        <div class="role-tag-box">Ex Manager & Dev</div>
+        <div class="timeline-company">Modalidad: Survival</div>
+        <p class="timeline-desc">
+          Servidor de 
+          <span class="discord-mention" onclick="copyDiscord('sntaanaa', this)">
+            Santana
+            <span class="discord-tooltip">
+              <svg class="discord-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              sntaanaa (Copiar)
+            </span>
+          </span> y 
+          <span class="discord-mention" onclick="copyDiscord('alfuego.', this)">
+            Alfuego
+            <span class="discord-tooltip">
+              <svg class="discord-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              alfuego. (Copiar)
+            </span>
+          </span> donde fue adquirido por 
+          <span class="discord-mention" onclick="copyDiscord('santiagosimon2008', this)">
+            SrSimon
+            <span class="discord-tooltip">
+              <svg class="discord-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              santiagosimon2008 (Copiar)
+            </span>
+          </span> quien fue el que me contrató de Dev y posteriormente fui ascendiendo hasta llegar a Manager; decidí resignar ya que estaban arruinando la esencia de SummonCraft.
+        </p>
+        <ul class="timeline-details-list">
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Corrección de errores y configuración en el servidor.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>Distinta gestión del staff junto a otros compañeros.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Configuración y aporte al equipo de development.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Profesionalismo, dirección y control.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title-row">
+          <div class="server-title-group">
+            <h2 class="timeline-role">MineRoot</h2>
+            <span class="server-date">Diciembre 2025</span>
+          </div>
+          <span class="badge closed">Cerrado</span>
+        </div>
+        <div class="role-tag-box">Ex-Manager & Owner</div>
+        <div class="timeline-company">Modalidad: Fastfarm & Survival PvP</div>
+        <p class="timeline-desc">
+          Server de fastfarm de 
+          <span class="discord-mention" onclick="copyDiscord('gkgk248', this)">
+            Gabriel Martínez
+            <span class="discord-tooltip">
+              <svg class="discord-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              gkgk248 (Copiar)
+            </span>
+          </span>, donde me metieron directo de Manager ya que me conocían y sabían cómo trabajaba. Luego fui Owner durante las etapas finales del servidor, que posteriormente cerró por temas administrativos.
+        </p>
+        <ul class="timeline-details-list">
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Gestión y dirección de actividades generales del servidor.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Desarrollo y configuración en el servidor.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>Creación de normativas y manejo del StaffTeam.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title-row">
+          <div class="server-title-group">
+            <h2 class="timeline-role">HoverMC</h2>
+            <span class="server-date">Noviembre 2025</span>
+          </div>
+          <span class="badge closed">Cerrado</span>
+        </div>
+        <div class="role-tag-box">Ex-Manager & Configurator</div>
+        <div class="timeline-company">Modalidad: Fastfarm</div>
+        <p class="timeline-desc">
+          Mi deber principal dentro de Hover, fue gestionar la actividad del staff, mejorarla, imponer reglas para una mejor actividad y profesionalismo al brindar ayuda a los usuarios. Y una vez configurar fastfarm.
+        </p>
+        <ul class="timeline-details-list">
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Gestión, supervisión y mejora de la actividad del equipo de staff.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>Implementación de normativas y profesionalismo en la atención al usuario.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Configuración completa de la modalidad Fastfarm.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title-row">
+          <div class="server-title-group">
+            <h2 class="timeline-role">CrystaliaMC</h2>
+            <span class="server-date">Octubre 2025</span>
+          </div>
+          <span class="badge open">Abierto</span>
+        </div>
+        <div class="role-tag-box">Ex Manager & Configurator</div>
+        <div class="timeline-company">Modalidad: Survival Clásico, Survival Custom</div>
+        <p class="timeline-desc">
+          Mi deber principal en Crystalia es más que todo configurar lo que me pidan ya sea /menus, personalizarlos, y todo lo que deba tener un survival, además de gestionar el staff para una mejor atención.
+        </p>
+        <ul class="timeline-details-list">
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Diseño, desarrollo y personalización completa de menús interactivos.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>Configuración de sistemas y mecánicas esenciales para servidores Survival.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title-row">
+          <div class="server-title-group">
+            <h2 class="timeline-role">ZunderMC</h2>
+            <span class="server-date">Abril 2025</span>
+          </div>
+          <span class="badge closed">Cerrado</span>
+        </div>
+        <div class="role-tag-box">Ex Head Manager & Configurator</div>
+        <div class="timeline-company">Modalidad: Fastfarm</div>
+        <p class="timeline-desc">
+          Mi deber principal dentro de Zunder, fue configurar modalidades, apoyar en todo lo que podía, y gestionar la actividad del staff y mejorarla, para un mejor nivel de profesionalismo en el servidor.
+        </p>
+        <ul class="timeline-details-list">
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Configuración avanzada de modalidades de juego.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Dirección general y gestión de actividad del equipo de administración.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title-row">
+          <div class="server-title-group">
+            <h2 class="timeline-role">OceanMC</h2>
+            <span class="server-date">Noviembre 2024</span>
+          </div>
+          <span class="badge closed">Cerrado</span>
+        </div>
+        <div class="role-tag-box">Ex Head Manager & Configurator</div>
+        <div class="timeline-company">Modalidad: BoxPvP & Fastfarm</div>
+        <p class="timeline-desc">
+          OceanMC fué un servidor de BoxPvP & Fastfarm creado por 
+          <span class="discord-mention" onclick="copyDiscord('hauchcraft', this)">
+            Hauchdev
+            <span class="discord-tooltip">
+              <svg class="discord-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              hauchcraft (Copiar)
+            </span>
+          </span>. Al principio me contrataron de Dev, y fui ascendiendo poco a poco hasta ser Head Manager; posteriormente el servidor cerró por temas económicos.
+        </p>
+        <ul class="timeline-details-list">
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>Gestión e implementación de normativas para el staff y para el usuario.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>Configuración y aporte al equipo de development.</span>
+          </li>
+          <li class="timeline-detail-item">
+            <svg class="detail-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Profesionalismo, dirección y control del StaffTeam.</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="copy-toast">
+    <svg class="toast-svg-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    <span>Copiado al portapapeles</span>
+    <div class="countdown-container">
+      <svg class="countdown-svg" viewBox="0 0 28 28">
+        <circle class="countdown-bg" cx="14" cy="14" r="12"></circle>
+        <circle id="countdown-circle" class="countdown-progress" cx="14" cy="14" r="12"></circle>
+      </svg>
+      <span id="countdown-text" class="countdown-number">5</span>
+    </div>
+    <button class="toast-close" onclick="closeToast()">&times;</button>
+  </div>
+
+  <footer>
+    <p>&copy; <span>2026 iMarviin</span>. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    let toastTimeout = null;
+    let intervalTimer = null;
+    let activeCooldowns = {}; 
+
+    function copyDiscord(text, element) {
+      if (activeCooldowns[text]) {
+        return; 
+      }
+
+      activeCooldowns[text] = true;
+      setTimeout(() => {
+        delete activeCooldowns[text];
+      }, 10000);
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast();
+      }).catch(err => {
+        console.error('Error al copiar: ', err);
+      });
+    }
+
+    function showToast() {
+      const toast = document.getElementById('copy-toast');
+      const numberSpan = document.getElementById('countdown-text');
+      const circle = document.getElementById('countdown-circle');
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      if (intervalTimer) clearInterval(intervalTimer);
+
+      toast.classList.add('show');
+
+      let timeLeft = 5;
+      numberSpan.textContent = timeLeft;
+      
+      const circumference = 75.4; 
+      circle.style.strokeDashoffset = 0;
+
+      let startTime = Date.now();
+      let duration = 5000; 
+
+      intervalTimer = setInterval(() => {
+        let elapsed = Date.now() - startTime;
+        let remaining = Math.max(0, duration - elapsed);
+        let currentSec = Math.ceil(remaining / 1000);
+
+        numberSpan.textContent = currentSec;
+
+        let offset = circumference - (remaining / duration) * circumference;
+        circle.style.strokeDashoffset = offset;
+
+        if (remaining <= 0) {
+          clearInterval(intervalTimer);
+        }
+      }, 50);
+
+      toastTimeout = setTimeout(() => {
+        closeToast();
+      }, duration);
+    }
+
+    function closeToast() {
+      const toast = document.getElementById('copy-toast');
+      toast.classList.remove('show');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      if (intervalTimer) clearInterval(intervalTimer);
+    }
+  </script>
+
+</body>
+</html>
